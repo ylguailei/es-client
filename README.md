@@ -54,6 +54,6 @@ BizResult bizResult = repository.query(searchQuery);
 ## properties文件配置
 ```
 spring.data.elasticsearch.repositories.enabled = true
-spring.data.elasticsearch.cluster-nodes=172.17.5.49:9300,172.17.5.50:9300,172.17.5.51:9300
+spring.data.elasticsearch.cluster-nodes=127.0.0.1:9300,127.0.0.2:9300,127.0.0.3:9300
 spring.data.elasticsearch.cluster-name=elasticsearch
 ```
