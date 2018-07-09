@@ -1,7 +1,6 @@
 package com.kieki.elasticsearch.client;
 
 import com.google.common.collect.Lists;
-import com.kieki.elasticsearch.client.repository.AbstractRepository;
 import com.kieki.elasticsearch.client.repository.RespositoryService;
 import com.kieki.elasticsearch.client.response.BizResult;
 import org.apache.commons.lang3.StringUtils;

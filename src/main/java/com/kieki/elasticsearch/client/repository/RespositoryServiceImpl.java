@@ -6,28 +6,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 抽象仓库，后续各自扩展可继承
- * Created by kieki on 2016/11/14.
- *
- * @param <T>
- */
 @Component
-public class AbstractRepository implements RespositoryService {
+public class RespositoryServiceImpl implements RespositoryService {
+
     @Autowired
     ESRepository repository;
 
     @Override
     public BizResult query(SearchQuery query) {
         BizResult result = new BizResult();
-        List<String> bizList = new ArrayList<>();
+        List<Member> bizList = new ArrayList<>();
 
-        Page<String> pageOrders = repository.search(query);
+        Page<Member> pageOrders = repository.search(query);
         if (pageOrders.getTotalElements() > 0) {
-            for (String order : pageOrders.getContent()) {
+            for (Member order : pageOrders.getContent()) {
                 bizList.add(order);
             }
         }
