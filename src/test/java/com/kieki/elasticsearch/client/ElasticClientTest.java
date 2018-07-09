@@ -2,24 +2,32 @@ package com.kieki.elasticsearch.client;
 
 import com.google.common.collect.Lists;
 import com.kieki.elasticsearch.client.repository.AbstractRepository;
+import com.kieki.elasticsearch.client.repository.RespositoryService;
 import com.kieki.elasticsearch.client.response.BizResult;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootApplication
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class ElasticClientTest {
 
     /**
      * 该repository是抽象的，调用方可自行继承并重写
      */
     @Autowired
-    AbstractRepository<String> repository;
+    RespositoryService repository;
 
     @Test
     public void query() {
@@ -62,6 +70,5 @@ public class ElasticClientTest {
 
         //step 8 通过封装过的query方法得到查询结果BizResult
         BizResult bizResult = repository.query(searchQuery);
-
     }
 }
