@@ -29,7 +29,7 @@ public class ElasticClientTest {
 
     @Test
     public void query() {
-/        Member member = new Member();
+        Member member = new Member();
         member.setMemberId(2);
         member.setMemberName("jack");
         repository.save(member);
