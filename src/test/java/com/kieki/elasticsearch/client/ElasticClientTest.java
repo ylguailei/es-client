@@ -22,7 +22,7 @@ import java.util.List;
 public class ElasticClientTest {
 
     /**
-     * 该repository是抽象的，调用方可自行继承并重写
+     * 该repository是抽象的，   调用方可自行继承并重写
      */
     @Autowired
     ESRepository repository;
