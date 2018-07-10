@@ -1,36 +1,20 @@
 package com.kieki.elasticsearch.client.response;
 
+import java.util.Objects;
+
 /**
  * 业务返回值
  * Created by kieki on 2016/11/14.
  */
-public class BizResult {
-    private int resultCode;
-    private String resultMessage;
-    private Object resultObject;
+public class BizResult<T> {
+    private T resultObject;
     private long total;
 
-    public int getResultCode() {
-        return resultCode;
-    }
-
-    public void setResultCode(int resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    public String getResultMessage() {
-        return resultMessage;
-    }
-
-    public void setResultMessage(String resultMessage) {
-        this.resultMessage = resultMessage;
-    }
-
-    public Object getResultObject() {
+    public T getResultObject() {
         return resultObject;
     }
 
-    public void setResultObject(Object resultObject) {
+    public void setResultObject(T resultObject) {
         this.resultObject = resultObject;
     }
 
@@ -44,12 +28,24 @@ public class BizResult {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("BizResult{");
-        sb.append("resultCode=").append(resultCode);
-        sb.append(", resultMessage='").append(resultMessage).append('\'');
-        sb.append(", resultObject=").append(resultObject);
-        sb.append(", total=").append(total);
-        sb.append('}');
-        return sb.toString();
+        return "BizResult{" +
+                "resultObject=" + resultObject +
+                ", total=" + total +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BizResult<?> bizResult = (BizResult<?>) o;
+        return total == bizResult.total &&
+                Objects.equals(resultObject, bizResult.resultObject);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(resultObject, total);
     }
 }

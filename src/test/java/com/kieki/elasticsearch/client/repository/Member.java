@@ -9,18 +9,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@Document(indexName = "member", type = "member", shards = 6, replicas = 1)
 @Component
+@Document(indexName = "${kieki.es.index.name}", type = "${kieki.es.type}", shards = 6, replicas = 1)
 public class Member implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     @Id
     @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
-    private long memberId;
+    private Long memberId;
     @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
     private String memberName;
 
-    public long getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 
