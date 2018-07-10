@@ -6,10 +6,10 @@
 ## 示例
 ```
 /**
- * 该repository是抽象的，调用方可自行继承并重写
+ * 该Repository继承自ElasticsearchRepository，由于运行时无法感知泛型类型，所以将整体Repository逻辑搬到上游业务上实现
  */
 @Autowired
-AbstractRepository<String> repository;
+ESRepository repository;
 //step 1 实例化ES标准查询对象
 QueryCriteria criteria = new QueryCriteria();
 //step 2 确定排序规则
@@ -49,6 +49,27 @@ SearchQuery searchQuery = elasticSearchProviders.buildSearchQuery(criteria);
 
 //step 8 通过封装过的query方法得到查询结果BizResult
 BizResult bizResult = repository.query(searchQuery);
+
+
+/**
+ * 包装repository查询条件
+ * @param query
+ * @return
+ */
+private BizResult query(SearchQuery query) {
+    BizResult result = new BizResult();
+    List<Member> bizList = Lists.newArrayList();
+
+    Page<Member> pageOrders = repository.search(query);
+    if (pageOrders.getTotalElements() > 0) {
+        for (Member order : pageOrders.getContent()) {
+            bizList.add(order);
+        }
+    }
+    result.setTotal(pageOrders.getTotalElements());
+    result.setResultObject(bizList);
+    return result;
+}
 ```
 
 ## properties文件配置
@@ -56,4 +77,8 @@ BizResult bizResult = repository.query(searchQuery);
 spring.data.elasticsearch.repositories.enabled = true
 spring.data.elasticsearch.cluster-nodes=127.0.0.1:9300,127.0.0.2:9300,127.0.0.3:9300
 spring.data.elasticsearch.cluster-name=elasticsearch
+
+# 新增两个配置，将ES索引的名称及类型放在配置中
+kieki.es.index.name="member"
+kieki.es.type = "member"
 ```

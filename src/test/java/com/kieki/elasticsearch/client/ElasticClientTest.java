@@ -22,7 +22,7 @@ import java.util.List;
 public class ElasticClientTest {
 
     /**
-     * 该repository是抽象的，   调用方可自行继承并重写
+     * 该Repository继承自ElasticsearchRepository，由于运行时无法感知泛型类型，所以将整体Repository逻辑搬到上游业务上实现
      */
     @Autowired
     ESRepository repository;
