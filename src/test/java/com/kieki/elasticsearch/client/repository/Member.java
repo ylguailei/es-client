@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 @Component
-@Document(indexName = "${kieki.es.index.name}", type = "${kieki.es.type}", shards = 6, replicas = 1)
+@Document(indexName = "member", type = "member", shards = 6, replicas = 1)
 public class Member implements Serializable {
     @Id
     @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
