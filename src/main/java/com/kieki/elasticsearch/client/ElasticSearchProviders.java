@@ -54,7 +54,7 @@ public class ElasticSearchProviders {
             nativeSearchQueryBuilder.withFilter(boolQueryBuilder);
         }
         if (startIndex != null && maxRecordReturn != null)
-            return nativeSearchQueryBuilder.withPageable(new PageRequest(startIndex - 1, maxRecordReturn)).build();
+            return nativeSearchQueryBuilder.withPageable(PageRequest.of(startIndex - 1, maxRecordReturn)).build();
         else
             return nativeSearchQueryBuilder.build();
     }

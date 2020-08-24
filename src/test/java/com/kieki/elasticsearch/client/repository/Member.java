@@ -3,7 +3,6 @@ package com.kieki.elasticsearch.client.repository;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +12,9 @@ import java.io.Serializable;
 @Document(indexName = "member", type = "member", shards = 6, replicas = 1)
 public class Member implements Serializable {
     @Id
-    @Field(type = FieldType.Long, index = FieldIndex.not_analyzed, store = true)
+    @Field(type = FieldType.Long, store = true)
     private Long memberId;
-    @Field(type = FieldType.String, index = FieldIndex.not_analyzed, store = true)
+    @Field(type = FieldType.Text, store = true)
     private String memberName;
 
     public Long getMemberId() {

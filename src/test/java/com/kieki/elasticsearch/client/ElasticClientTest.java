@@ -1,20 +1,24 @@
 package com.kieki.elasticsearch.client;
 
-import com.google.common.collect.Lists;
-import com.kieki.elasticsearch.client.repository.ESRepository;
 import com.kieki.elasticsearch.client.repository.Member;
 import com.kieki.elasticsearch.client.response.BizResult;
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RunWith(SpringRunner.class)
@@ -25,7 +29,7 @@ public class ElasticClientTest {
      * 该Repository继承自ElasticsearchRepository，由于运行时无法感知泛型类型，所以将整体Repository逻辑搬到上游业务上实现
      */
     @Autowired
-    ESRepository repository;
+    ElasticsearchRestTemplate repository;
 
     @Test
     public void query() {
@@ -70,7 +74,7 @@ public class ElasticClientTest {
         ElasticSearchProviders elasticSearchProviders = new ElasticSearchProviders();
 
         //step 7 构建查询条件
-        SearchQuery searchQuery = elasticSearchProviders.buildSearchQuery(criteria);
+        NativeSearchQuery searchQuery = elasticSearchProviders.buildSearchQuery(criteria);
 
         //step 8 通过封装过的query方法得到查询结果BizResult
         BizResult bizResult = query(searchQuery);
@@ -78,20 +82,19 @@ public class ElasticClientTest {
 
     /**
      * 包装repository查询条件
+     *
      * @param query
      * @return
      */
-    private BizResult query(SearchQuery query) {
+    private BizResult query(NativeSearchQuery query) {
         BizResult result = new BizResult();
         List<Member> bizList = Lists.newArrayList();
 
-        Page<Member> pageOrders = repository.search(query);
-        if (pageOrders.getTotalElements() > 0) {
-            for (Member order : pageOrders.getContent()) {
-                bizList.add(order);
-            }
+        SearchHits<Member> memberHits = repository.search(query, Member.class);
+        if (memberHits.getTotalHits() > 0) {
+            bizList = memberHits.stream().map(SearchHit::getContent).collect(Collectors.toList());
         }
-        result.setTotal(pageOrders.getTotalElements());
+        result.setTotal(memberHits.getTotalHits());
         result.setResultObject(bizList);
         return result;
     }
