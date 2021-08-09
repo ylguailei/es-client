@@ -9,7 +9,7 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <properties>
-        <es.version>7.6.2</es.version>
+        <es.version>7.13.3</es.version>
         <spring.data.es.version>4.0.3.RELEASE</spring.data.es.version>
         <lang3.version>3.7</lang3.version>
     </properties>
